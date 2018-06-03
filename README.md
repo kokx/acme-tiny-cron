@@ -33,4 +33,4 @@ TODO
 ====
 
 - [ ] Implement script that actually runs the above
-- [ ] Define crontab, verify if it actually runs
+- [x] Define crontab, verify if it actually runs
