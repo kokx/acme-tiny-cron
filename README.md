@@ -32,5 +32,5 @@ The following environment variables can be supplied:
 TODO
 ====
 
-- [ ] Implement script that actually runs the above
+- [x] Implement script that actually runs the above
 - [x] Define crontab, verify if it actually runs
