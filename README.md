@@ -14,6 +14,8 @@ This container requires the following files and directories to be mounted:
 - `/domain.key` account key for Let's Encrypt (can be read-only).
 - `/challenge` directory will place challenge files (should be served as `/.well-known/acme-challenge/` on all domains).
 - `/certs` directory where this container will place resulting certificate.
+- `/hooks/pre.sh` shell script that will be executed just before a certificate is requested from Let's Encrypt.
+- `/hooks/post.sh` shell script that will be executed just after a certificate is requested from Let's Encrypt.
 
 The account key and domain key can be generated as follows:
 
@@ -30,11 +32,24 @@ The following environment variables can be supplied:
 - `DOMAINS` space-separated list of domain names to be included in the certificate (TODO: point users to limits of Let's Encrypt on this)
 - `TIMEZONE` a timezone that should be set in the system before crond is started. Should exist in `/usr/share/zoneinfo`. By default, UTC is already configured.
 
-TODO
-====
+Hooks
+=====
+Pre- and post-execution hooks can be defined by mounting them in the container at `/hooks/pre.sh` and `/hooks/post.sh`.
 
-- [x] Implement script that actually runs the above
-- [x] Define crontab, verify if it actually runs
-- [x] On startup, check if current certificate executes and is still valid for 30 days, otherwise execute /exec.sh
-- [ ] Add hooks that will be executed before and after a certificate is obtained.
-- [x] Figure out proper timezone setup
+For example, the following pre-hook will start a simple webserver to serve the challenge file:
+
+```sh
+echo "doing pre"
+mkdir -p /tmp/serve/.well-known
+ln -s /challenge /tmp/serve/.well-known/acme-challenge
+(cd /tmp/serve && python -m http.server) &
+sleep 1 # wait a bit for the server to start
+# (note that the script must run the python server in the background)
+```
+
+And the corresponding `post.sh` file will shut it down and do cleanup:
+
+```sh
+killall python
+rm -r /tmp/serve
+```

@@ -1,5 +1,13 @@
 #!/bin/sh
 
+source /hooks/pre.sh
+
+function error() {
+    # always execute post hook
+    source /hooks/post.sh
+    exit $1
+}
+
 san=""
 
 for domain in $DOMAINS ; do
@@ -8,18 +16,18 @@ done
 
 printf "%s\n\n%s\n%s\n" "$(cat /etc/ssl/openssl.cnf)" "[SAN]" "subjectAltName=${san%?}" > /tmp/sslconf.cnf
 
-echo "-----------------"
-
 openssl req -new \
     -sha256 \
     -key /domain.key \
     -subj "/" \
     -reqexts SAN \
     -config /tmp/sslconf.cnf \
-        > "/tmp/$CERTFILE.csr" || exit 1
+        > "/tmp/$CERTFILE.csr" || error 1
 
 acme_tiny \
     --account-key /account.key \
     --csr "/tmp/$CERTFILE.csr" \
     --acme-dir /challenge \
-        > "/certs/$CERTFILE" || exit 2
+        > "/certs/$CERTFILE" || error 2
+
+source /hooks/post.sh
