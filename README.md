@@ -28,6 +28,7 @@ The following environment variables can be supplied:
 - `PGID` the GID of the host group from which files will be created.
 - `CERTFILE` name of the certificate file to be created.
 - `DOMAINS` space-separated list of domain names to be included in the certificate (TODO: point users to limits of Let's Encrypt on this)
+- `TIMEZONE` a timezone that should be set in the system before crond is started. Should exist in `/usr/share/zoneinfo`. By default, UTC is already configured.
 
 TODO
 ====
@@ -36,4 +37,4 @@ TODO
 - [x] Define crontab, verify if it actually runs
 - [x] On startup, check if current certificate executes and is still valid for 30 days, otherwise execute /exec.sh
 - [ ] Add hooks that will be executed before and after a certificate is obtained.
-- [ ] Figure out proper timezone setup
+- [x] Figure out proper timezone setup
