@@ -12,10 +12,7 @@ RUN apk add --no-cache --virtual build-dependencies curl \
     && addgroup -S acme
 
 COPY entrypoint.sh /
-COPY 00-try-sh.sh /startup-sequence/
-COPY 20-moduser.sh /startup-sequence/
-COPY 80-create-cron.sh /startup-sequence/
-COPY 99-launch.sh /startup-sequence/
+COPY /startup-sequence /startup-sequence/
 
 COPY exec.sh /
 
