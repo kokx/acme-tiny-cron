@@ -34,6 +34,6 @@ TODO
 
 - [x] Implement script that actually runs the above
 - [x] Define crontab, verify if it actually runs
-- [ ] On startup, check if current certificate executes and is still valid for 30 days, otherwise execute /exec.sh
+- [x] On startup, check if current certificate executes and is still valid for 30 days, otherwise execute /exec.sh
 - [ ] Add hooks that will be executed before and after a certificate is obtained.
 - [ ] Figure out proper timezone setup

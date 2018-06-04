@@ -16,10 +16,10 @@ openssl req -new \
     -subj "/" \
     -reqexts SAN \
     -config /tmp/sslconf.cnf \
-        > "/$CERTFILE.csr" || exit 1
+        > "/tmp/$CERTFILE.csr" || exit 1
 
 acme_tiny \
     --account-key /account.key \
-    --csr "/$CERTFILE.csr" \
+    --csr "/tmp/$CERTFILE.csr" \
     --acme-dir /challenge \
         > "/certs/$CERTFILE" || exit 2
