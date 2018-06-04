@@ -53,3 +53,28 @@ And the corresponding `post.sh` file will shut it down and do cleanup:
 killall python
 rm -r /tmp/serve
 ```
+
+Docker-compose example
+======================
+
+Docker-compose example:
+
+```yml
+version: '3'
+services:
+  acme:
+    build: .
+    volumes:
+      - ./account.key:/account.key:ro
+      - ./domain.key:/domain.key:ro
+      - ./challenge/:/challenge
+      - ./certs/:/certs
+      - ./pre.sh:/hooks/pre.sh
+      - ./post.sh:/hooks/post.sh
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - CERTFILE=domain.crt
+      - DOMAINS='example.com test.example.com'
+      - TIMEZONE=Europe/Amsterdam
+```
