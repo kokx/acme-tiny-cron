@@ -15,6 +15,7 @@ RUN apk add --no-cache --virtual build-dependencies curl \
 
 COPY entrypoint.sh /
 COPY /startup-sequence /startup-sequence/
+COPY /hooks /hooks/
 
 COPY exec.sh /
 
